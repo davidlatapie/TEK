@@ -2119,8 +2119,9 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot) const
         return DoS(100, error("CheckBlock() : hashMerkleRoot mismatch"));
 
     // ppcoin: check block signature
-    //if (!CheckBlockSignature())
-    //    return DoS(100, error("CheckBlock() : bad block signature"));
+	int64 nTime = GetBlockTime(); 
+    if (!CheckBlockSignature() && nTime > 1378532496) //added by davidlatapie after presstab's suggestion inspired by Tranz'  - above block 1000
+        return DoS(100, error("CheckBlock() : bad block signature"));
 
     return true;
 }
